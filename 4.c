@@ -6,11 +6,11 @@
 
 
 int totbug = 0;
-int tot = 0;
+int tot = 0;    // data的总数
 int hashmap[maxn];  // 每个hash值在data链表中的位置
 
-int data[maxn];
-int datanext[maxn] // data中每个项的下一项在data数组中的位置，用来模拟链表
+int data[maxn];     // 每个data数组的状态
+int datanext[maxn]; // data中每个项的下一项在data数组中的位置，用来模拟链表
 
 int ans[maxn];  // 每个data数组中的下标的ans值
 int q[maxn];
@@ -22,11 +22,23 @@ int vis[20];
 
 
 void dfs(int x, int cur) {
-    if (x == 9) {
+    if (x == 10) {
         int hashp = cur % mod;
-        if (hashmap[hashp] != 0) totbug++;
-        hashmap[hashp] = cur;
-        return;
+        if (hashmap[hashp] != 0) {
+            int q;
+            for (q = hashmap[hashp]; datanext[q] != 0; q = datanext[q]) {
+
+            }
+            tot++;
+            data[tot] = cur;
+            datanext[q] = tot;
+            return;
+        } else {
+            tot++;
+            hashmap[hashp] = tot;
+            data[tot] = cur;
+            return;
+        }
     }
     for (int i = 0; i <= 8; i++) {
         if (vis[i]) continue;
@@ -49,12 +61,12 @@ int main () {
     // for (int i = 1; i <= 9; i++) ans *= i;
     // printf("%d", ans);
     hash_pre();
-    int tothash = 0;
-    for (int i = 1; i < 1000000; i++) {
-        if (hashmap[i] != 0) tothash++;
-    }
-    printf("%d   %d", tothash, totbug);
-
+    // int tothash = 0;
+    // for (int i = 1; i < 1000000; i++) {
+    //     if (hashmap[i] != 0) tothash++;
+    // }
+    // printf("%d   %d", tothash, totbug);
+    // printf("%d", tot);
 
     return 0;
 }
