@@ -1,56 +1,59 @@
 #include<stdio.h>
 #include<string.h>
-#define maxn 400040
+#define maxn 600000
+// #define base 10
+#define mod 921017
 
+
+int totbug = 0;
 int tot = 0;
-int a[maxn];
-int ans[maxn];
+int hashmap[maxn];  // 每个hash值在data链表中的位置
+
+int data[maxn];
+int datanext[maxn] // data中每个项的下一项在data数组中的位置，用来模拟链表
+
+int ans[maxn];  // 每个data数组中的下标的ans值
 int q[maxn];
 int qfro, qend;
 int dx[] = {0, -1, 0, 0, 1};
 int dy[] = {0, 0, -1, 1, 0};
 int tmp[20];
+int vis[20];
 
-void push_val(int val) {
-    qend++;
-    tot++;
-    a[tot] = val;
-    q[qend] = tot;
+
+void dfs(int x, int cur) {
+    if (x == 9) {
+        int hashp = cur % mod;
+        if (hashmap[hashp] != 0) totbug++;
+        hashmap[hashp] = cur;
+        return;
+    }
+    for (int i = 0; i <= 8; i++) {
+        if (vis[i]) continue;
+        vis[i] = 1;
+        dfs(x + 1, cur * 10 + i);
+        vis[i] = 0;
+    }
+
 }
-void change(int x) {
-    int val = a[x];
-    int ti;
-    for (ti = 9; ti >= 1; ti--) {
-        a[10 - ti] = val % 10;
-        if (val % 10 == 0) break;
-        val /= 10;
-    }
-    int tx = (ti - 1) / 3 + 1;
-    int ty = (ti - 1) % 3 + 1;
-    for (int i = 1; i <= 4; i++) {
-        int xx = tx + dx[i];
-        int yy = ty + dy[i];
-        if (xx < 1 || xx > 3 || yy < 1 || yy > 3) continue;
 
-    }
+void hash_pre(void) {
+    int hash = 0;
+    memset(vis, 0, sizeof(vis));
+    dfs(1, 0);
 
-} 
-void bfs(void) {
-    while (qfro <= qend) {
-        qfro++;
-        change(q[qfro]);
-    }
 }
 
 int main () {
     // int ans = 1;
     // for (int i = 1; i <= 9; i++) ans *= i;
     // printf("%d", ans);
-    a[1] = 123456780;
-    qfro = 0;
-    qend = 1;
-    q[1] = 1;
-    bfs();
+    hash_pre();
+    int tothash = 0;
+    for (int i = 1; i < 1000000; i++) {
+        if (hashmap[i] != 0) tothash++;
+    }
+    printf("%d   %d", tothash, totbug);
 
 
     return 0;
