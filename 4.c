@@ -17,14 +17,9 @@ int q[maxn];
 int qfro, qend;
 int dx[] = {0, -1, 0, 0, 1};
 int dy[] = {0, 0, -1, 1, 0};
-int tmp[20];
+int bas10[] = {0, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1};
+int a[10][10];
 int vis[20];
-
-void bfs(void) {
-    while (qfro <= qend) {
-        
-    }
-}
 
 void dfs(int x, int cur) {
     if (x == 10) {
@@ -84,7 +79,43 @@ void sets(void) {                   // 处理初始值
     qfro = 1;
     qend = 0;
     push(sss);
+    ans[sss] = 0;
 }
+
+void bfs(void) {
+    memset(ans, 0x3f, sizeof(ans));
+    while (qfro <= qend) {
+        int q = pop();
+        int qkey = data[q];
+        int sx, sy, st;
+        for (int i = 9; i >= 1; i--) {
+            int xx = (i - 1) / 3 + 1;
+            int yy = (i - 1) % 3 + 1;
+            a[xx][yy] = qkey % 10;
+            if (a[xx][yy] == 0) {
+                sx = xx;
+                sy = yy;
+            }
+            qkey /= 10;
+        }
+        st = (sx - 1) * 3 + sy;
+        for (int i = 1; i <= 4; i++) {
+            int xx = sx + dx[i];
+            int yy = sy + dy[i];
+            if (xx < 1 || xx > 3 || yy < 1 || yy > 3) continue;
+            int tt = (xx - 1) * 3 + yy;
+            int qkey = data[q];
+            qkey = qkey - a[xx][yy] * bas10[tt] + a[xx][yy] * bas10[st];
+            int qmod = qkey % mod;
+            int qno = getkey(qmod, qkey);
+            if (ans[qno] > ans[q] + 1) {
+                ans[qno] = ans[q] + 1;
+                push(qno);
+            }
+        }
+    }
+}
+
 
 int main () {
     // int ans = 1;
@@ -99,5 +130,21 @@ int main () {
     // printf("%d", tot);
 
     bfs();
+    int T;
+    scanf("%d", &T);
+    int n, na;
+    for (int i = 1; i <= T; i++) {
+        n = 0;
+        for (int i = 1; i <= 9; i++) {
+            scanf("%d", &na);
+            n *= 10;
+            n += na;
+        }
+        int nmod = n % mod;
+        int nkey = getkey(nmod, n);
+        printf("Case #%d:%d\n", i, ans[nkey]);
+        // printf("%d", n);
+
+    }
     return 0;
 }
