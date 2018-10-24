@@ -79,14 +79,17 @@ void sets(void) {                   // 处理初始值
     qfro = 1;
     qend = 0;
     push(sss);
+    memset(ans, 0x3f, sizeof(ans));
     ans[sss] = 0;
 }
 
 void bfs(void) {
-    memset(ans, 0x3f, sizeof(ans));
     while (qfro <= qend) {
         int q = pop();
         int qkey = data[q];
+
+        // printf("%d\n", qkey);
+
         int sx, sy, st;
         for (int i = 9; i >= 1; i--) {
             int xx = (i - 1) / 3 + 1;
@@ -128,7 +131,7 @@ int main () {
     // }
     // printf("%d   %d", tothash, totbug);
     // printf("%d", tot);
-
+    sets();
     bfs();
     int T;
     scanf("%d", &T);
@@ -142,7 +145,9 @@ int main () {
         }
         int nmod = n % mod;
         int nkey = getkey(nmod, n);
-        printf("Case #%d:%d\n", i, ans[nkey]);
+        int ansppp = ans[nkey];
+        if (ansppp == 1061109567) ansppp = -1;
+        printf("Case #%d:%d\n", i, ansppp);
         // printf("%d", n);
 
     }
