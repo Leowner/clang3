@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<string.h>
-#define maxn 600000
+#define maxn 1000000
 // #define base 10
 #define mod 921017
 
