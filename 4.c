@@ -20,6 +20,11 @@ int dy[] = {0, 0, -1, 1, 0};
 int tmp[20];
 int vis[20];
 
+void bfs(void) {
+    while (qfro <= qend) {
+        
+    }
+}
 
 void dfs(int x, int cur) {
     if (x == 10) {
@@ -56,6 +61,31 @@ void hash_pre(void) {
 
 }
 
+void push(int x) {
+    qend++;
+    q[qend] = x;
+}
+
+int pop(void) {
+    return(q[qfro++]);
+}
+
+int getkey(int hashp, int cur) {        // 得到某个数值和其hash值所对应的序号
+    for (int p = hashmap[hashp]; p != 0; p = datanext[p]) {
+        if (data[p] == cur) return p;
+    }
+}
+
+
+
+void sets(void) {                   // 处理初始值
+    int hashp = 123456780 % mod;
+    int sss = getkey(hashp, 123456780);
+    qfro = 1;
+    qend = 0;
+    push(sss);
+}
+
 int main () {
     // int ans = 1;
     // for (int i = 1; i <= 9; i++) ans *= i;
@@ -68,5 +98,6 @@ int main () {
     // printf("%d   %d", tothash, totbug);
     // printf("%d", tot);
 
+    bfs();
     return 0;
 }
