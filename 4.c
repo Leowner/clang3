@@ -147,7 +147,7 @@ int main () {
         int nkey = getkey(nmod, n);
         int ansppp = ans[nkey];
         if (ansppp == 1061109567) ansppp = -1;
-        printf("Case #%d:%d\n", i, ansppp);
+        printf("Case #%d: %d\n", i, ansppp);
         // printf("%d", n);
 
     }
